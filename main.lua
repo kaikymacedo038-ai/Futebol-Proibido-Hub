@@ -203,3 +203,38 @@ tabButton("Config", 228)
 showTab("Jogador")
 
 print("Futebol Proibido Hub V6 carregado!")
+
+-- BUSCA AUTOMATICA DA BOLA
+
+local function findBall()
+    local possibleNames = {
+        Ball = true,
+        Bola = true,
+        Football = true
+    }
+
+    for _, obj in ipairs(workspace:GetDescendants()) do
+        if possibleNames[obj.Name] then
+            if obj:IsA("BasePart") then
+                return obj
+            elseif obj:IsA("Model") then
+                local part = obj.PrimaryPart
+                    or obj:FindFirstChildWhichIsA("BasePart", true)
+
+                if part then
+                    return part
+                end
+            end
+        end
+    end
+
+    return nil
+end
+
+local ball = findBall()
+
+if ball then
+    print("Bola encontrada: " .. ball:GetFullName())
+else
+    print("Bola ainda não encontrada!")
+end
